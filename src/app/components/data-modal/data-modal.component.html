@@ -1,0 +1,34 @@
+
+<form [formGroup]="forma" (ngSubmit)="onGuardar()">
+
+  <app-modal #modal1>
+    <div class="app-modal-header">
+      header
+    </div>
+    <div class="app-modal-body">
+      Alias:
+      <input class="form-control" type="text" formControlName="nombre">
+      <div *ngIf="forma.controls['nombre'].errors?.required" >El alias es necesario</div>
+      <div *ngIf="forma.controls['nombre'].errors?.minlength" >Por lo menos 6 caracteres</div>
+      <div *ngIf="forma.controls['nombre'].errors?.maxlength" >Máximo 20 caracteres</div>
+      <div *ngIf="forma.controls['nombre'].errors?.sinEspacio" >No pouede contener espacios</div>
+      
+    </div>
+    <div class="app-modal-footer">
+      <a (click)="modal1.hide()">Close</a>
+      <button type="button" class="btn btn-default" (click)="modal2.show()">Guardar</button>
+    </div>
+  </app-modal>
+
+  <!--Modal de confirmacion-->
+  <app-modal #modal2>
+    <div class="app-modal-header">
+      Esta seguro de actualizar el registro?
+    </div>
+    <div class="app-modal-footer">
+      <button type="submit" class="btn btn-default">OK</button>
+      <button type="button" class="btn btn-default" (click)="modal2.hide()">Cancelar</button>
+    </div>
+  </app-modal>
+
+</form>
