@@ -3,22 +3,23 @@
 
 <form [formGroup]="forma" (ngSubmit)="onGuardar()">
 
-  <div>
-
+  <div formGroupName="nombrecompleto">
+  
     <div class="form-group row">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
+        
         <input class="form-control"
                type="text"
                placeholder="Nombre"
-               [ngClass]="{ 'campo-error': !forma.get('nombre').valid }"
+               [ngClass]="{ 'campo-error': !forma.get('nombrecompleto.nombre').valid }"
                formControlName="nombre">
 
-        <div *ngIf="forma.controls['nombre'].errors?.required" >El nombre es necesario</div>
-        <div *ngIf="forma.controls['nombre'].errors?.minlength" >Por lo menos 6 caracteres</div>
-        <div *ngIf="forma.controls['nombre'].errors?.maxlength" >Máximo 20 caracteres</div>
-        <div *ngIf="forma.controls['nombre'].errors?.sinEspacio" >No pouede contener espacios</div>
+        <div *ngIf="forma.controls['nombrecompleto'].controls['nombre'].errors?.required" >El nombre es necesario</div>
+        <div *ngIf="forma.controls['nombrecompleto'].controls['nombre'].errors?.minlength" >Por lo menos 6 caracteres</div>
+        <div *ngIf="forma.controls['nombrecompleto'].controls['nombre'].errors?.maxlength" >Máximo 20 caracteres</div>
+        <div *ngIf="forma.controls['nombrecompleto'].controls['nombre'].errors?.sinEspacio" >No pouede contener espacios</div>
 
       </div>
     </div>
@@ -38,7 +39,7 @@
 
   <div class="form-group row">
     <label class="col-2 col-form-label">Correo</label>
-    <div class="col-md-8">
+    <div class="col-8">
 
       <input class="form-control"
              type="email"
@@ -47,12 +48,30 @@
     </div>
   </div>
 
+  <!--Pasatiempos-->
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Pasatiempos</label>
+    <div class="col-8" formArrayName="pasatiempos">
+
+      <input *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index" 
+             class="form-control"
+             type="text"
+             [formControlName]="i">
+    </div>
+
+    <button (click)="agregarPasatiempo()" type="button" class="btn btn-outline-primary">
+      Nuevo
+    </button>
+
+  </div>
+
+
 
 
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
     <div class="input-group col-md-8">
-      <button type="submit" class="btn btn-outline-primary">
+      <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
         Guardar
       </button>
     </div>
